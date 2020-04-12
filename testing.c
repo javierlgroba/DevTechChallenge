@@ -90,7 +90,10 @@ size_t createUnorderedRandomArray(int** pointerToNewArray, size_t arraySize)
   //populate random array
   for(int i = 0; i<arraySize; ++i)
   {
-    localpointerToNewArray[i] = rand() % 3;
+    if(rand()>(0.999 * RAND_MAX))
+      localpointerToNewArray[i] = rand();
+    else
+      localpointerToNewArray[i] = rand() % 3;
   }
 
   //return array and array size
@@ -103,6 +106,14 @@ int main() {
   int example[30] = {2, 2, 1, 0, 1, 0, 1, 1, 0, 2, 2, 1, 1, 1, 2, 0, 0, 1, 1, 0, 1, 0, 1, 2, 0, 0, 0, 1, 1, 2};
   size_t arraySize = sizeof(example)/sizeof(int);
   testArray(example, arraySize);
+
+  //wrong one sized array
+  int* wrongArray;
+  wrongArray = (int [1]){3};
+  testArray(wrongArray, 1);
+
+  wrongArray = (int [1]){-1};
+  testArray(wrongArray, 1);
 
   //empty array
   int* emptyArray;

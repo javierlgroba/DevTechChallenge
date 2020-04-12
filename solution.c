@@ -25,6 +25,12 @@ bool isArrayOrdered(const size_t next0sPosition, const size_t next2sPosition)
   return (next0sPosition>=next2sPosition);
 }
 
+bool isInvalidNumber(const int number)
+{
+  //Numbers greater than 2 or lower than 0 are invalid numbers
+  return (number>2 || number<0);
+}
+
 void swap(int* affectedArray, size_t fromPosition, size_t toPosition)
 {
   //swap two values in the array. TODO: This can be modified since we know
@@ -43,9 +49,9 @@ int orderArray(int* unorderedArray, size_t arraySize)
   //An array of size 1 or less is already ordered
   if(arraySize<=1)
   {
-    //Cannot order an array with numbers greater than 2
+    //Cannot order an array with numbers greater than 2 or lower than 0
     if(arraySize==1)
-      return (unorderedArray[0]>2);
+      return isInvalidNumber(unorderedArray[0]);
 
     return 0;
   }
@@ -61,7 +67,7 @@ int orderArray(int* unorderedArray, size_t arraySize)
 
   //After this search we may conclude that the array is already ordered
   if(isArrayOrdered(next0sPosition, next2sPosition))
-    return 0;
+    return (isInvalidNumber(unorderedArray[next0sPosition]) || isInvalidNumber(unorderedArray[next2sPosition]));
 
   //The array is not ordered, iterate through the remaining positions to order the array
   size_t currentPosition = next0sPosition;
